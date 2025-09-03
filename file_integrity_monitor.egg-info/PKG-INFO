@@ -1,3 +1,40 @@
+Metadata-Version: 2.4
+Name: file-integrity-monitor
+Version: 1.0.0
+Summary: Cross-platform File Integrity Monitor with tamper-evident logging
+Author-email: File Integrity Monitor Team <team@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/example/file-integrity-monitor
+Project-URL: Repository, https://github.com/example/file-integrity-monitor
+Project-URL: Issues, https://github.com/example/file-integrity-monitor/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: Security
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: watchdog>=3.0.0
+Requires-Dist: cryptography>=41.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: psutil>=5.9.0
+Requires-Dist: python-dateutil>=2.8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: docker
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "docker"
+
 # File Integrity Monitor (FIM)
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)

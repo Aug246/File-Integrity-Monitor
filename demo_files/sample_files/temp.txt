@@ -1,0 +1,12 @@
+This is a temporary file that will be deleted during the demo.
+
+The File Integrity Monitor will detect this deletion and log it as an event.
+
+Temporary files like this are often excluded from monitoring in production environments
+using patterns like "*.tmp" or "*.temp" in the exclude_patterns configuration.
+
+This file demonstrates:
+- File deletion detection
+- Event logging
+- Baseline comparison
+- Change tracking

@@ -1,0 +1,8 @@
+2024-01-15 10:00:01 [ERROR] Failed to access /etc/shadow (Permission denied)
+2024-01-15 10:00:02 [WARNING] File /var/log/old.log not found during baseline creation
+2024-01-15 10:00:03 [ERROR] Database connection timeout - retrying...
+2024-01-15 10:00:04 [INFO] Database connection restored
+2024-01-15 10:01:15 [WARNING] Large file detected: /var/log/syslog (15.2 MB)
+2024-01-15 10:02:30 [ERROR] Failed to calculate hash for /tmp/corrupted.bin (I/O error)
+2024-01-15 10:03:45 [WARNING] File permissions changed: /etc/nginx/nginx.conf (644 -> 600)
+2024-01-15 10:05:00 [INFO] Error log rotation completed

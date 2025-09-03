@@ -1,0 +1,12 @@
+2024-01-15 10:00:00 [INFO] File Integrity Monitor started
+2024-01-15 10:00:01 [INFO] Database initialized successfully
+2024-01-15 10:00:02 [INFO] Baseline created for /etc (1,247 files)
+2024-01-15 10:00:03 [INFO] Baseline created for /usr/local/bin (89 files)
+2024-01-15 10:00:04 [INFO] Baseline created for /var/log (156 files)
+2024-01-15 10:00:05 [INFO] Monitoring started for 3 paths
+2024-01-15 10:00:06 [INFO] File change detected: /etc/hosts (modified)
+2024-01-15 10:01:15 [INFO] File change detected: /var/log/auth.log (modified)
+2024-01-15 10:02:30 [INFO] File change detected: /usr/local/bin/backup.sh (created)
+2024-01-15 10:03:45 [INFO] File change detected: /etc/nginx/nginx.conf (modified)
+2024-01-15 10:05:00 [INFO] Periodic verification completed - 0 changes detected
+2024-01-15 10:10:00 [INFO] Database backup completed successfully

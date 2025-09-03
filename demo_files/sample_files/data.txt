@@ -1,0 +1,27 @@
+File Integrity Monitor - Sample Data File
+==========================================
+
+This file contains sample data that will be monitored for changes.
+
+File Information:
+- Created: 2024-01-15
+- Purpose: Demo and testing
+- Type: Text data
+- Size: Variable
+
+Sample Records:
+1. User: admin, Access: 2024-01-15 10:30:00
+2. User: user1, Access: 2024-01-15 11:15:00
+3. User: user2, Access: 2024-01-15 12:00:00
+
+Configuration Settings:
+- Monitoring enabled: true
+- Alert threshold: 5 changes
+- Retention period: 90 days
+- Hash algorithm: SHA-256
+
+This file demonstrates how the FIM system tracks:
+- File content changes
+- Access patterns
+- Configuration modifications
+- Security settings

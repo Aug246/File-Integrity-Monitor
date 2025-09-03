@@ -1,0 +1,3 @@
+2025-09-02 21:02:40,519 - fim.core - INFO - Creating baseline for path: /Users/aug/File-Integrity-Monitor/demo_files/sample_files
+2025-09-02 21:02:47,893 - fim.core - INFO - Verifying baseline for path: /Users/aug/File-Integrity-Monitor/demo_files/sample_files
+2025-09-02 21:02:47,896 - fim.core - INFO - Verification complete: 0 modified, 6 created, 0 deleted

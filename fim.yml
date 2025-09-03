@@ -1,0 +1,132 @@
+# File Integrity Monitor Configuration
+# This file configures the monitoring behavior and paths
+
+# Paths to monitor for file changes
+monitor_paths:
+  - "/etc"
+  - "/usr/local/bin"
+  - "/var/log"
+
+# File patterns to exclude from monitoring
+exclude_patterns:
+  - "*.tmp"
+  - "*.log"
+  - "*.cache"
+  - ".DS_Store"
+  - "Thumbs.db"
+  - "*.swp"
+  - "*.bak"
+  - "*.old"
+
+# Monitoring configuration
+monitoring:
+  # Use polling mode instead of watchdog (fallback for systems without inotify support)
+  use_polling: false
+  
+  # Polling interval in seconds (only used when use_polling is true)
+  polling_interval: 60
+  
+  # Maximum file size to monitor (in bytes, 0 = unlimited)
+  max_file_size: 104857600  # 100MB
+  
+  # Recursive monitoring (monitor subdirectories)
+  recursive: true
+
+# Database configuration
+database:
+  # Database file path (SQLite)
+  path: "fim.db"
+  
+  # Backup database before operations
+  backup_before_operations: true
+  
+  # Retention policy for events (days, 0 = keep forever)
+  event_retention_days: 90
+  
+  # Retention policy for baseline (days, 0 = keep forever)
+  baseline_retention_days: 0
+
+# Agent configuration
+agent:
+  # Unique identifier for this agent
+  id: "fim-agent-001"
+  
+  # Agent description
+  description: "Primary file integrity monitor"
+  
+  # Check for updates to monitored files
+  check_updates: true
+
+# Alerting configuration
+alerts:
+  # Enable alerting for critical file changes
+  enabled: true
+  
+  # Critical file extensions that trigger alerts
+  critical_extensions:
+    - ".exe"
+    - ".dll"
+    - ".so"
+    - ".dylib"
+    - ".conf"
+    - ".config"
+    - ".ini"
+    - ".sh"
+    - ".py"
+  
+  # Critical paths that trigger alerts
+  critical_paths:
+    - "/etc"
+    - "/bin"
+    - "/sbin"
+    - "/usr/bin"
+    - "/usr/sbin"
+    - "/Windows/System32"
+  
+  # Alert methods (future implementation)
+  methods:
+    - "log"
+    - "email"  # Not implemented yet
+    - "webhook"  # Not implemented yet
+
+# Logging configuration
+logging:
+  # Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  level: "INFO"
+  
+  # Log file path
+  file: "fim.log"
+  
+  # Maximum log file size (bytes)
+  max_size: 10485760  # 10MB
+  
+  # Number of log files to keep
+  backup_count: 5
+  
+  # Log format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Performance configuration
+performance:
+  # Number of worker threads for file processing
+  worker_threads: 4
+  
+  # Batch size for database operations
+  batch_size: 100
+  
+  # Memory limit for file hashing (bytes)
+  memory_limit: 52428800  # 50MB
+
+# Security configuration
+security:
+  # Hash algorithm for file integrity (sha256, sha512, blake2b)
+  hash_algorithm: "sha256"
+  
+  # Enable HMAC signatures for tamper evidence
+  enable_hmac: true
+  
+  # Secret key file path (auto-generated if not specified)
+  secret_key_file: "fim.key"
+  
+  # Verify database integrity on startup
+  verify_on_startup: true
