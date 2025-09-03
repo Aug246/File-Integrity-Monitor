@@ -194,6 +194,31 @@ chmod +x demo_script.sh
 4. Shows you how to detect changes
 5. Exports results
 
+## 🔄 **Reset Project to Clean State**
+
+After running demos or experiments, you can easily reset the project back to its clean state:
+
+```bash
+# Make the reset script executable (first time only)
+chmod +x reset_project.sh
+
+# Reset the project to clean state
+./reset_project.sh
+```
+
+**What the reset script does:**
+- Removes all generated files (databases, logs, exports)
+- Clears Python cache and build artifacts
+- Restores demo files to original state
+- Verifies the clean state
+- Prepares the project for fresh demos
+
+**Perfect for:**
+- Starting over after experiments
+- Preparing for demonstrations
+- Cleaning up before sharing
+- Resetting for new users
+
 ## 📚 **Understanding the Output**
 
 ### **Baseline Creation Output:**

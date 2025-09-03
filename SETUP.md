@@ -190,6 +190,27 @@ chmod +x demo_script.sh
 4. Shows you how to detect changes
 5. Exports results
 
+## 🔄 **Step 8: Reset Project (Optional but Recommended)**
+
+After running the demo, you can reset the project to its clean state:
+
+```bash
+# Go back to project root
+cd ..
+
+# Make the reset script executable (first time only)
+chmod +x reset_project.sh
+
+# Reset the project to clean state
+./reset_project.sh
+```
+
+**What the reset script does:**
+- Removes all demo-generated files
+- Restores sample files to original state
+- Clears databases, logs, and cache
+- Prepares for fresh demos or experiments
+
 ## 🔧 **Common Problems & Solutions**
 
 ### **Problem: "fim: command not found"**

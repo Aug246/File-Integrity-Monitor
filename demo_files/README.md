@@ -115,6 +115,29 @@ rm -f demo_files/demo_fim.db
 ./demo_script.sh
 ```
 
+## 🔄 **Reset After Demo (Recommended)**
+
+After running the demo, you can easily reset the project to its clean state:
+
+```bash
+# Go back to project root
+cd ..
+
+# Make the reset script executable (first time only)
+chmod +x reset_project.sh
+
+# Reset the project to clean state
+./reset_project.sh
+```
+
+**This will:**
+- Remove all demo-generated files
+- Restore sample files to original state
+- Clear any databases or logs
+- Prepare the project for fresh demos
+
+**Perfect for:** Running the demo multiple times or sharing with others!
+
 ## 📚 **Understanding the Demo**
 
 ### **What the Demo Script Does:**
