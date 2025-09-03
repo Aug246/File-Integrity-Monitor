@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "file-integrity-monitor"
+name = "simple-file-integrity-monitor"
 version = "1.0.0"
-description = "Cross-platform File Integrity Monitor with tamper-evident logging"
+description = "Simple File Integrity Monitor for baseline creation and verification"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
@@ -13,6 +13,7 @@ authors = [
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
@@ -22,16 +23,12 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: System :: Monitoring",
     "Topic :: Security",
+    "Topic :: Education",
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "watchdog>=3.0.0",
-    "cryptography>=41.0.0",
-    "pyyaml>=6.0",
     "click>=8.0.0",
     "rich>=13.0.0",
-    "psutil>=5.9.0",
-    "python-dateutil>=2.8.0",
 ]
 
 [project.optional-dependencies]
@@ -42,17 +39,14 @@ dev = [
     "flake8>=6.0.0",
     "mypy>=1.0.0",
 ]
-docker = [
-    "psycopg2-binary>=2.9.0",
-]
 
 [project.scripts]
 fim = "fim.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/example/file-integrity-monitor"
-Repository = "https://github.com/example/file-integrity-monitor"
-Issues = "https://github.com/example/file-integrity-monitor/issues"
+Homepage = "https://github.com/example/simple-file-integrity-monitor"
+Repository = "https://github.com/example/simple-file-integrity-monitor"
+Issues = "https://github.com/example/simple-file-integrity-monitor/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -60,11 +54,11 @@ include = ["fim*"]
 
 [tool.black]
 line-length = 88
-target-version = ['py311']
+target-version = ['py310']
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --cov=fim --cov-report=term-missing"
+addopts = "-v"

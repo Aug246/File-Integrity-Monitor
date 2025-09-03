@@ -1,23 +1,19 @@
 """
-Command-line interface for File Integrity Monitor.
+Simplified command-line interface for File Integrity Monitor.
 """
 
 import os
 import sys
-import yaml
 import logging
 from pathlib import Path
-from typing import Optional, List
 import click
 from rich.console import Console
 from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from rich.panel import Panel
-from rich.text import Text
+from typing import Optional
 
-from .core import FileMonitor, BaselineManager
+from .core import BaselineManager
 from .database import DatabaseManager
-from .models import EventType
 
 console = Console()
 
@@ -28,45 +24,22 @@ def setup_logging(verbose: bool = False):
     logging.basicConfig(
         level=level,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.StreamHandler(sys.stdout),
-            logging.FileHandler('fim.log')
-        ]
+        handlers=[logging.StreamHandler(sys.stdout)]
     )
-
-
-def load_config(config_path: str) -> dict:
-    """Load configuration from YAML file."""
-    try:
-        with open(config_path, 'r') as f:
-            config = yaml.safe_load(f)
-        return config or {}
-    except FileNotFoundError:
-        console.print(f"[yellow]Warning: Config file {config_path} not found, using defaults[/yellow]")
-        return {}
-    except yaml.YAMLError as e:
-        console.print(f"[red]Error parsing config file: {e}[/red]")
-        sys.exit(1)
 
 
 @click.group()
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
-@click.option('--config', '-c', default='fim.yml', help='Configuration file path')
-@click.pass_context
-def main(ctx, verbose: bool, config: str):
-    """File Integrity Monitor (FIM) - Cross-platform file change detection and monitoring."""
+def main(verbose: bool):
+    """Simple File Integrity Monitor - Baseline creation and verification."""
     setup_logging(verbose)
-    ctx.ensure_object(dict)
-    ctx.obj['config'] = load_config(config)
-    ctx.obj['verbose'] = verbose
 
 
 @main.command()
 @click.option('--path', '-p', required=True, help='Path to create baseline for')
 @click.option('--exclude', '-e', multiple=True, help='File patterns to exclude (e.g., *.tmp)')
 @click.option('--db', default='fim.db', help='Database file path')
-@click.pass_context
-def init(ctx, path: str, exclude: tuple, db: str):
+def init(path: str, exclude: tuple, db: str):
     """Create initial baseline for specified path."""
     try:
         console.print(f"[bold blue]Creating baseline for: {path}[/bold blue]")
@@ -88,7 +61,7 @@ def init(ctx, path: str, exclude: tuple, db: str):
             
             file_records = baseline_manager.create_baseline(path, exclude_patterns)
             
-            progress.update(task, description=f"Baseline created successfully!")
+            progress.update(task, description="Baseline created successfully!")
         
         # Display results
         table = Table(title="Baseline Summary")
@@ -109,68 +82,14 @@ def init(ctx, path: str, exclude: tuple, db: str):
 
 
 @main.command()
-@click.option('--config', '-c', default='fim.yml', help='Configuration file path')
-@click.option('--db', default='fim.db', help='Database file path')
-@click.option('--foreground', '-f', is_flag=True, help='Run in foreground mode')
-@click.option('--polling', is_flag=True, help='Use polling mode instead of watchdog')
-@click.pass_context
-def start(ctx, config: str, db: str, foreground: bool, polling: bool):
-    """Start file monitoring."""
-    try:
-        config_data = load_config(config)
-        if not config_data.get('monitor_paths'):
-            console.print("[red]Error: No monitor_paths specified in config file[/red]")
-            sys.exit(1)
-        
-        console.print(f"[bold blue]Starting File Integrity Monitor[/bold blue]")
-        console.print(f"Monitoring paths: {', '.join(config_data['monitor_paths'])}")
-        
-        # Initialize database and monitor
-        database = DatabaseManager(db)
-        monitor = FileMonitor(database, config_data)
-        
-        if foreground:
-            console.print("[yellow]Running in foreground mode (Ctrl+C to stop)[/yellow]")
-            
-            if polling:
-                monitor.run_polling_monitor()
-            else:
-                monitor.start_monitoring()
-                try:
-                    # Keep running until interrupted
-                    while monitor.is_monitoring:
-                        import time
-                        time.sleep(1)
-                except KeyboardInterrupt:
-                    console.print("\n[yellow]Stopping monitor...[/yellow]")
-                    monitor.stop_monitoring()
-        else:
-            console.print("[yellow]Starting background monitoring...[/yellow]")
-            if polling:
-                monitor.run_polling_monitor()
-            else:
-                monitor.start_monitoring()
-                console.print("[green]✓ Monitoring started in background[/green]")
-                console.print("Use 'fim status' to check status or 'fim stop' to stop")
-        
-    except Exception as e:
-        console.print(f"[red]Error starting monitor: {e}[/red]")
-        sys.exit(1)
-
-
-@main.command()
-@click.option('--path', '-p', help='Path to verify (uses config default if not specified)')
+@click.option('--path', '-p', required=True, help='Path to verify')
 @click.option('--db', default='fim.db', help='Database file path')
 @click.option('--format', 'output_format', default='table', 
               type=click.Choice(['table', 'json', 'csv']), help='Output format')
-@click.pass_context
-def verify(ctx, path: Optional[str], db: str, output_format: str):
+def verify(path: str, db: str, output_format: str):
     """Verify current state against baseline."""
     try:
-        config_data = ctx.obj['config']
-        verify_path = path or config_data.get('monitor_paths', ['.'])[0]
-        
-        console.print(f"[bold blue]Verifying baseline for: {verify_path}[/bold blue]")
+        console.print(f"[bold blue]Verifying baseline for: {path}[/bold blue]")
         
         # Initialize database and baseline manager
         database = DatabaseManager(db)
@@ -184,7 +103,7 @@ def verify(ctx, path: Optional[str], db: str, output_format: str):
         ) as progress:
             task = progress.add_task("Verifying files...", total=None)
             
-            results = baseline_manager.verify_baseline(verify_path)
+            results = baseline_manager.verify_baseline(path)
             
             progress.update(task, description="Verification complete!")
         
@@ -234,8 +153,7 @@ def verify(ctx, path: Optional[str], db: str, output_format: str):
               type=click.Choice(['json', 'csv']), help='Export format')
 @click.option('--output', '-o', help='Output file path (defaults to stdout)')
 @click.option('--db', default='fim.db', help='Database file path')
-@click.pass_context
-def db_export(ctx, output_format: str, output: Optional[str], db: str):
+def export(output_format: str, output: Optional[str], db: str):
     """Export database data."""
     try:
         console.print(f"[bold blue]Exporting database: {db}[/bold blue]")
@@ -270,8 +188,7 @@ def db_export(ctx, output_format: str, output: Optional[str], db: str):
 
 @main.command()
 @click.option('--db', default='fim.db', help='Database file path')
-@click.pass_context
-def status(ctx, db: str):
+def status(db: str):
     """Show monitoring status and recent events."""
     try:
         console.print(f"[bold blue]File Integrity Monitor Status[/bold blue]")
@@ -312,47 +229,17 @@ def status(ctx, db: str):
             
             console.print(events_table)
         
-        # Integrity check
-        console.print("\n[bold]Database Integrity Check[/bold]")
-        integrity_results = database.verify_integrity()
-        
-        if integrity_results['errors']:
-            console.print("[red]⚠ Integrity check failed:[/red]")
-            for error in integrity_results['errors']:
-                console.print(f"  [red]• {error}[/red]")
-        else:
-            console.print("[green]✓ Database integrity verified[/green]")
-        
     except Exception as e:
         console.print(f"[red]Error checking status: {e}[/red]")
         sys.exit(1)
 
 
 @main.command()
-@click.option('--db', default='fim.db', help='Database file path')
-@click.pass_context
-def stop(ctx, db: str):
-    """Stop file monitoring (if running in background)."""
-    try:
-        console.print("[yellow]Note: This command only works if FIM is running in background mode[/yellow]")
-        console.print("If running in foreground, use Ctrl+C to stop")
-        
-        # In a real implementation, you'd send a signal to the background process
-        # For now, just show a message
-        console.print("[green]✓ Monitor stop command sent[/green]")
-        
-    except Exception as e:
-        console.print(f"[red]Error stopping monitor: {e}[/red]")
-        sys.exit(1)
-
-
-@main.command()
-@click.pass_context
-def version(ctx):
+def version():
     """Show version information."""
     from . import __version__
     console.print(f"[bold blue]File Integrity Monitor v{__version__}[/bold blue]")
-    console.print("Cross-platform file change detection and monitoring")
+    console.print("Simple file change detection and monitoring")
 
 
 if __name__ == '__main__':

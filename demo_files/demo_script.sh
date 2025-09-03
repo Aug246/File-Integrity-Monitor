@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# File Integrity Monitor Demo Script
-# This script demonstrates the complete FIM workflow
+# Simple File Integrity Monitor Demo Script
+# This script demonstrates the basic FIM workflow
 
 set -e
 
@@ -19,7 +19,7 @@ DB_PATH="$DEMO_DIR/demo_fim.db"
 LOG_FILE="$DEMO_DIR/demo.log"
 
 echo -e "${BLUE}================================${NC}"
-echo -e "${BLUE}  File Integrity Monitor Demo${NC}"
+echo -e "${BLUE}  Simple FIM Demo${NC}"
 echo -e "${BLUE}================================${NC}"
 echo ""
 
@@ -130,10 +130,10 @@ export_data() {
     print_status "Exporting database data..."
     
     # Export to JSON
-    fim db-export --format json --output "$DEMO_DIR/demo_results.json" --db "$DB_PATH" 2>&1 | tee -a "$LOG_FILE"
+    fim export --format json --output "$DEMO_DIR/demo_results.json" --db "$DB_PATH" 2>&1 | tee -a "$LOG_FILE"
     
     # Export to CSV
-    fim db-export --format csv --output "$DEMO_DIR/demo_results.csv" --db "$DB_PATH" 2>&1 | tee -a "$LOG_FILE"
+    fim export --format csv --output "$DEMO_DIR/demo_results.csv" --db "$DB_PATH" 2>&1 | tee -a "$LOG_FILE"
     
     print_status "Data export completed"
 }
@@ -167,14 +167,13 @@ show_results() {
     echo "  ✓ File modification detection"
     echo "  ✓ File creation detection"
     echo "  ✓ File deletion detection"
-    echo "  ✓ Database integrity verification"
     echo "  ✓ Data export in multiple formats"
-    echo "  ✓ CLI interface usage"
+    echo "  ✓ Simple CLI interface usage"
     echo ""
     echo -e "${BLUE}Next steps:${NC}"
     echo "  - Review the generated files"
-    echo "  - Try running 'fim start' to begin real-time monitoring"
-    echo "  - Modify files while monitoring is active"
+    echo "  - Try running 'fim verify' on different paths"
+    echo "  - Experiment with different exclusion patterns"
     echo "  - Check the logs and database for events"
 }
 
@@ -183,9 +182,9 @@ cleanup() {
     print_status "Cleaning up demo environment..."
     
     # Stop any running FIM processes
-    if pgrep -f "fim start" > /dev/null; then
+    if pgrep -f "fim" > /dev/null; then
         print_warning "Stopping running FIM processes..."
-        pkill -f "fim start" || true
+        pkill -f "fim" || true
     fi
     
     print_status "Cleanup completed"
@@ -193,7 +192,7 @@ cleanup() {
 
 # Main demo execution
 main() {
-    echo "Starting FIM Demo at $(date)" > "$LOG_FILE"
+    echo "Starting Simple FIM Demo at $(date)" > "$LOG_FILE"
     
     # Check if sample files directory exists
     if [ ! -d "$SAMPLE_FILES_DIR" ]; then

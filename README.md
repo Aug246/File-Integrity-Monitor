@@ -1,344 +1,277 @@
-# File Integrity Monitor (FIM)
+# Simple File Integrity Monitor (FIM)
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-passing-green.svg)](https://github.com/example/file-integrity-monitor/actions)
 
-A **cross-platform File Integrity Monitor** that detects and logs file changes with **tamper-evident records**, continuous monitoring, and comprehensive reporting. Built for security professionals, system administrators, and compliance requirements.
+A **simple and focused File Integrity Monitor** that creates baselines and verifies file changes. Perfect for learning about file security and demonstrating security tools!
 
-## 🎯 Features
+## 🎯 **What This Project Does**
 
-- **🔍 Real-time Monitoring**: Watchdog-based file system monitoring with polling fallback
-- **🛡️ Tamper Evidence**: HMAC-signed database records and audit trails
-- **📊 Comprehensive Detection**: File creation, modification, deletion, permission changes
-- **🌐 Cross-platform**: Windows, macOS, and Linux support
-- **💾 Local Database**: SQLite with optional PostgreSQL support
-- **📈 Rich CLI**: Beautiful terminal interface with progress bars and tables
-- **🔒 Security Focused**: SHA-256 hashing, HMAC verification, critical file alerts
-- **📋 Export Options**: JSON and CSV data export for analysis
+Think of this like a "file detective" that:
+- **Takes a snapshot** of your files (creates a "baseline")
+- **Watches for changes** and tells you what's different
+- **Reports everything** in easy-to-read formats
 
-## 🚀 Quick Start
+## 🚀 **Quick Start (Step by Step)**
 
-### Installation
-
+### **Step 1: Check Your System**
+First, make sure you have Python installed:
 ```bash
-# Clone the repository
-git clone https://github.com/example/file-integrity-monitor.git
-cd file-integrity-monitor
+python3 --version
+```
+You should see something like `Python 3.10.11` or higher.
 
+**If you don't have Python:**
+- **macOS**: Download from [python.org](https://www.python.org/downloads/)
+- **Windows**: Download from [python.org](https://www.python.org/downloads/)
+- **Linux**: Usually pre-installed, or run `sudo apt install python3`
+
+### **Step 2: Download the Project**
+```bash
+# Download the project
+git clone https://github.com/example/file-Integrity-Monitor.git
+
+# Go into the project folder
+cd file-Integrity-Monitor
+```
+
+**If you don't have git:**
+- **macOS**: Install Xcode Command Line Tools: `xcode-select --install`
+- **Windows**: Download from [git-scm.com](https://git-scm.com/)
+- **Linux**: `sudo apt install git`
+
+### **Step 3: Install Dependencies**
+```bash
+# Install the required packages
+pip3 install -r requirements.txt
+
+# Install the project itself
+pip3 install -e .
+```
+
+**If you get permission errors:**
+- Try: `pip3 install --user -r requirements.txt`
+- Or: `sudo pip3 install -r requirements.txt`
+
+### **Step 4: Test the Installation**
+```bash
+# Check if FIM is working
+fim version
+```
+You should see: `File Integrity Monitor v1.0.0`
+
+## 🧪 **Your First File Monitoring Session**
+
+### **1. Create a Test Folder**
+```bash
+# Make a test folder
+mkdir my_test_files
+cd my_test_files
+
+# Create some test files
+echo "Hello World" > file1.txt
+echo "Test content" > file2.txt
+echo "Configuration" > config.ini
+```
+
+### **2. Create Your First Baseline**
+```bash
+# Go back to the project folder
+cd ..
+
+# Create a baseline (snapshot) of your test files
+fim init --path ./my_test_files
+```
+
+**What this does:** Takes a "picture" of all your files, including their sizes, modification dates, and unique fingerprints (hashes).
+
+### **3. Make Some Changes**
+```bash
+# Go back to your test folder
+cd my_test_files
+
+# Modify a file
+echo "Modified content" >> file1.txt
+
+# Create a new file
+echo "New file" > file3.txt
+
+# Delete a file
+rm file2.txt
+```
+
+### **4. Check What Changed**
+```bash
+# Go back to the project folder
+cd ..
+
+# See what's different from your baseline
+fim verify --path ./my_test_files
+```
+
+**What you'll see:** A table showing which files were created, modified, or deleted.
+
+### **5. Export Your Results**
+```bash
+# Save your results to a file
+fim export --format json --output my_results.json
+
+# Or save as CSV for Excel
+fim export --format csv --output my_results.csv
+```
+
+## 📋 **All Available Commands**
+
+| Command | What It Does | Example |
+|---------|-------------|---------|
+| `fim init --path /folder` | Create baseline for a folder | `fim init --path /etc` |
+| `fim verify --path /folder` | Check for changes | `fim verify --path /etc` |
+| `fim status` | Show system status | `fim status` |
+| `fim export --format json` | Export data as JSON | `fim export --format json` |
+| `fim version` | Show version info | `fim version` |
+
+## 🔧 **Common Problems & Solutions**
+
+### **Problem: "fim: command not found"**
+**Solution:** The command isn't in your PATH. Try:
+```bash
+# Reinstall the project
+pip3 install -e .
+
+# Or run directly with Python
+python3 -m fim.cli version
+```
+
+### **Problem: "Permission denied"**
+**Solution:** You don't have permission to read the folder. Try:
+```bash
+# Check permissions
+ls -la /path/to/folder
+
+# Use a folder you own
+fim init --path ~/Documents
+```
+
+### **Problem: "Database is locked"**
+**Solution:** Another process is using the database. Try:
+```bash
+# Remove the database file
+rm fim.db
+
+# Run the command again
+fim init --path /your/folder
+```
+
+### **Problem: "No module named 'click'"**
+**Solution:** Dependencies aren't installed. Try:
+```bash
 # Install dependencies
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
-# Install in development mode
-pip install -e .
+# Or install individually
+pip3 install click rich
 ```
 
-### Basic Usage
+## 🎬 **Run the Demo (Recommended for Beginners)**
+
+The project comes with a ready-made demo:
 
 ```bash
-# 1. Create baseline for a directory
-fim init --path /important/path
-
-# 2. Start monitoring (foreground mode)
-fim start --config fim.yml --foreground
-
-# 3. In another terminal, verify changes
-fim verify --path /important/path
-
-# 4. Check system status
-fim status
-
-# 5. Export data
-fim db-export --format json --output results.json
-```
-
-### Demo
-
-```bash
-# Run the automated demo
+# Go to demo folder
 cd demo_files
+
+# Make the demo script executable
 chmod +x demo_script.sh
+
+# Run the demo
 ./demo_script.sh
 ```
 
-## 🏗️ Architecture
+**What the demo does:**
+1. Creates sample files
+2. Creates a baseline
+3. Makes changes to files
+4. Shows you how to detect changes
+5. Exports results
 
+## 📚 **Understanding the Output**
+
+### **Baseline Creation Output:**
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   File System   │    │   FIM Agent     │    │   SQLite DB     │
-│                 │    │                 │    │                 │
-│  /etc          │◄──►│  Watchdog       │───►│  Baseline      │
-│  /usr/bin      │    │  Event Handler  │    │  Events        │
-│  /var/log      │    │  Baseline Mgr   │    │  Audit Log     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                              │
-                              ▼
-                       ┌─────────────────┐
-                       │   CLI Interface │
-                       │                 │
-                       │  init           │
-                       │  start          │
-                       │  verify         │
-                       │  status         │
-                       │  export         │
-                       └─────────────────┘
-```
-
-## 📋 CLI Commands
-
-| Command | Description | Example |
-|---------|-------------|---------|
-| `fim init` | Create baseline for path | `fim init --path /etc` |
-| `fim start` | Start monitoring | `fim start --config fim.yml` |
-| `fim verify` | Verify against baseline | `fim verify --path /etc` |
-| `fim status` | Show system status | `fim status` |
-| `fim db-export` | Export data | `fim db-export --format csv` |
-| `fim version` | Show version info | `fim version` |
-
-## ⚙️ Configuration
-
-The system uses `fim.yml` for configuration:
-
-```yaml
-# Monitor paths
-monitor_paths:
-  - "/etc"
-  - "/usr/local/bin"
-  - "/var/log"
-
-# Exclude patterns
-exclude_patterns:
-  - "*.tmp"
-  - "*.log"
-  - ".DS_Store"
-
-# Security settings
-security:
-  hash_algorithm: "sha256"
-  enable_hmac: true
-  verify_on_startup: true
-```
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage
-pytest --cov=fim --cov-report=html
-
-# Run specific test categories
-pytest tests/test_models.py
-pytest tests/test_integration.py
-```
-
-## 🐳 Docker Deployment
-
-### Quick Start with Docker Compose
-
-```bash
-# Start the complete stack
-docker-compose up -d
-
-# View logs
-docker-compose logs -f fim-agent
-
-# Stop services
-docker-compose down
-```
-
-### Manual Docker Build
-
-```bash
-# Build image
-docker build -t fim:latest .
-
-# Run container
-docker run -d \
-  --name fim-agent \
-  -v /etc:/etc:ro \
-  -v /usr/local/bin:/usr/local/bin:ro \
-  -v $(pwd)/fim.yml:/etc/fim/fim.yml:ro \
-  fim:latest
-```
-
-## 🔒 Security Features
-
-### Hash Algorithm Choice: SHA-256
-
-- **Cryptographically secure**: Resistant to collision attacks
-- **Industry standard**: Widely adopted and audited
-- **Performance**: Efficient for large files
-- **Future-proof**: No known vulnerabilities
-
-### Tamper Evidence
-
-- **HMAC signatures**: Every database record is signed
-- **Audit trails**: Complete operation logging
-- **Integrity verification**: Automatic database validation
-- **Secret key management**: Secure key generation and storage
-
-### Critical File Detection
-
-```python
-# Critical extensions trigger alerts
-critical_extensions = {".exe", ".dll", ".so", ".conf", ".ini"}
-
-# Critical paths trigger alerts  
-critical_paths = {"/etc", "/bin", "/sbin", "/Windows/System32"}
-```
-
-## 📊 Sample Output
-
-### Baseline Creation
-```
-Creating baseline for: /etc
+Creating baseline for: /path/to/folder
 [████████████████████████████████████████] 100%
-Baseline created successfully with 1,247 files
+Baseline created successfully with 15 files
+
+┌─────────────────┬─────────────────────┐
+│ Metric          │ Value               │
+├─────────────────┼─────────────────────┤
+│ Path            │ /path/to/folder     │
+│ Files Processed │ 15                  │
+│ Database        │ fim.db              │
+└─────────────────┴─────────────────────┘
 ```
 
-### Verification Results
+### **Verification Output:**
 ```
 ┌───────────┬───────┬─────────────────────────────────────┐
 │ Status    │ Count │ Files                               │
 ├───────────┼───────┼─────────────────────────────────────┤
-│ Created   │ 1     │ /etc/new_config.conf                │
-│ Modified  │ 2     │ /etc/hosts, /etc/nginx/nginx.conf  │
+│ Created   │ 2     │ /path/new1.txt, /path/new2.txt     │
+│ Modified  │ 1     │ /path/changed.txt                  │
 │ Deleted   │ 0     │                                     │
-│ Unchanged │ 1,244 │                                     │
+│ Unchanged │ 12    │                                     │
 └───────────┴───────┴─────────────────────────────────────┘
 ```
 
-### Status Check
-```
-┌─────────────────┬─────────────────────┐
-│ Metric          │ Value               │
-├─────────────────┼─────────────────────┤
-│ Database        │ fim.db              │
-│ Baseline Files  │ 1,247               │
-│ Recent Events   │ 3                   │
-└─────────────────┴─────────────────────┘
+## 🎯 **What This Project is Perfect For**
 
-✓ Database integrity verified
-```
+- **Learning** about file security and monitoring
+- **Demonstrating** security tools to recruiters
+- **Basic file change detection** needs
+- **Educational purposes** and workshops
+- **Understanding** how file integrity monitoring works
 
-## 🚀 Advanced Usage
+## 🚫 **What This Project Does NOT Do**
 
-### Multi-Host Monitoring
+- ❌ Real-time monitoring (it's manual check-based)
+- ❌ Complex configuration management
+- ❌ Advanced threat detection
+- ❌ Network monitoring
+- ❌ Enterprise features
 
+## 🤝 **Getting Help**
+
+### **Check the Logs**
+If something goes wrong, check the logs:
 ```bash
-# Agent 1: Monitor /etc
-FIM_AGENT_ID=agent-1 fim start --config fim.yml
-
-# Agent 2: Monitor /usr/local
-FIM_AGENT_ID=agent-2 fim start --config fim-local.yml
-
-# Central verification
-fim verify --path /etc --db agent-1.db
-fim verify --path /usr/local --db agent-2.db
-```
-
-### Custom Exclusions
-
-```bash
-# Exclude specific patterns
-fim init --path /var \
-  --exclude "*.tmp" \
-  --exclude "*.log" \
-  --exclude ".cache"
-```
-
-### Export and Analysis
-
-```bash
-# Export to JSON for analysis
-fim db-export --format json --output analysis.json
-
-# Export to CSV for spreadsheet analysis
-fim db-export --format csv --output report.csv
-
-# Filter by date range (using jq)
-jq '.events[] | select(.timestamp | contains("2024-01-15"))' analysis.json
-```
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**Permission Denied Errors**
-```bash
-# Run with appropriate permissions
-sudo fim init --path /etc
-```
-
-**Watchdog Not Available**
-```bash
-# Use polling mode
-fim start --config fim.yml --polling
-```
-
-**Database Locked**
-```bash
-# Check for running processes
-ps aux | grep fim
-
-# Remove lock file (if safe)
-rm -f fim.db-wal fim.db-shm
-```
-
-### Debug Mode
-
-```bash
-# Enable verbose logging
-fim start --config fim.yml --verbose
-
-# Check log files
+# Look for error messages
 tail -f fim.log
 ```
 
-## 📈 Performance Considerations
+### **Run with Verbose Output**
+Get more detailed information:
+```bash
+# See what's happening behind the scenes
+fim init --path /your/folder --verbose
+```
 
-- **Large directories**: Baseline creation scales linearly with file count
-- **Memory usage**: Configurable limits for file hashing
-- **Database performance**: Indexed queries for fast event retrieval
-- **Network impact**: Local operation with optional central reporting
+### **Test with Simple Files First**
+Start with a small folder you own:
+```bash
+# Test with your home directory
+fim init --path ~/Desktop
+```
 
-## 🔮 Future Enhancements
+## 🔒 **Security Note**
 
-- [ ] Web dashboard for visualization
-- [ ] Email and webhook alerting
-- [ ] Centralized management console
-- [ ] Machine learning anomaly detection
-- [ ] Integration with SIEM systems
-- [ ] Compliance reporting (SOX, PCI, HIPAA)
+This tool is for **learning and demonstration**. It stores file information locally and doesn't send data anywhere. For production use, consider enterprise-grade solutions.
 
-## 🤝 Contributing
+## 📄 **License**
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Watchdog](https://github.com/gorakhargosh/watchdog) for file system monitoring
-- [Click](https://click.palletsprojects.com/) for CLI framework
-- [Rich](https://github.com/Textualize/rich) for beautiful terminal output
-- [SQLite](https://www.sqlite.org/) for embedded database
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/example/file-integrity-monitor/issues)
-- **Documentation**: [Wiki](https://github.com/example/file-integrity-monitor/wiki)
-- **Security**: security@example.com
+This project is licensed under the MIT License.
 
 ---
 
-**Built with ❤️ for security professionals and system administrators**
+**Built for simplicity and learning** 🎓
+
+**Need help?** Start with the demo, then try monitoring a small folder you own!
