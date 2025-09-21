@@ -1,7 +1,7 @@
 # Simple File Integrity Monitor (FIM)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 A **simple and focused File Integrity Monitor** that creates baselines and verifies file changes. Perfect for learning about file security and demonstrating security tools!
 
