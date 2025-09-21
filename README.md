@@ -172,19 +172,6 @@ pip3 install -r requirements.txt
 pip3 install click rich
 ```
 
-**What the reset script does:**
-- Removes all generated files (databases, logs, exports)
-- Clears Python cache and build artifacts
-- Restores demo files to original state
-- Verifies the clean state
-- Prepares the project for fresh demos
-
-**Perfect for:**
-- Starting over after experiments
-- Preparing for demonstrations
-- Cleaning up before sharing
-- Resetting for new users
-
 ## 📚 **Understanding the Output**
 
 ### **Baseline Creation Output:**
