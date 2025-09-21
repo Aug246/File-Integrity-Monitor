@@ -172,28 +172,6 @@ pip3 install -r requirements.txt
 pip3 install click rich
 ```
 
-## 🎬 **Run the Demo (Recommended for Beginners)**
-
-The project comes with a ready-made demo:
-
-```bash
-# Go to demo folder
-cd demo_files
-
-# Make the demo script executable
-chmod +x demo_script.sh
-
-# Run the demo
-./demo_script.sh
-```
-
-**What the demo does:**
-1. Creates sample files
-2. Creates a baseline
-3. Makes changes to files
-4. Shows you how to detect changes
-5. Exports results
-
 ## 🔄 **Reset Project to Clean State**
 
 After running demos or experiments, you can easily reset the project back to its clean state:
