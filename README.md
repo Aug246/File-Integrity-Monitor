@@ -172,18 +172,6 @@ pip3 install -r requirements.txt
 pip3 install click rich
 ```
 
-## 🔄 **Reset Project to Clean State**
-
-After running demos or experiments, you can easily reset the project back to its clean state:
-
-```bash
-# Make the reset script executable (first time only)
-chmod +x reset_project.sh
-
-# Reset the project to clean state
-./reset_project.sh
-```
-
 **What the reset script does:**
 - Removes all generated files (databases, logs, exports)
 - Clears Python cache and build artifacts
