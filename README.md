@@ -1,4 +1,4 @@
-# Simple File Integrity Monitor (FIM)
+# File Integrity Monitor (FIM)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
@@ -29,7 +29,7 @@ You should see something like `Python 3.10.11` or higher.
 ### **Step 2: Download the Project**
 ```bash
 # Download the project
-git clone https://github.com/example/file-Integrity-Monitor.git
+git clone https://github.com/Aug246/file-Integrity-Monitor.git
 
 # Go into the project folder
 cd file-Integrity-Monitor
