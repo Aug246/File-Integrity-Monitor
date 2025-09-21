@@ -262,19 +262,5 @@ fim init --path /your/folder --verbose
 Start with a small folder you own:
 ```bash
 # Test with your home directory
-fim init --path ~/Desktop
+fim init --path ~/Desktops
 ```
-
-## 🔒 **Security Note**
-
-This tool is for **learning and demonstration**. It stores file information locally and doesn't send data anywhere. For production use, consider enterprise-grade solutions.
-
-## 📄 **License**
-
-This project is licensed under the MIT License.
-
----
-
-**Built for simplicity and learning** 🎓
-
-**Need help?** Start with the demo, then try monitoring a small folder you own!
