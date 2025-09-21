@@ -5,14 +5,14 @@
 
 A **simple and focused File Integrity Monitor** that creates baselines and verifies file changes. Perfect for learning about file security and demonstrating security tools!
 
-## 🎯 **What This Project Does**
+## **What This Project Does**
 
 Think of this like a "file detective" that:
 - **Takes a snapshot** of your files (creates a "baseline")
 - **Watches for changes** and tells you what's different
 - **Reports everything** in easy-to-read formats
 
-## 🚀 **Quick Start (Step by Step)**
+## **Quick Start (Step by Step)**
 
 ### **Step 1: Check Your System**
 First, make sure you have Python installed:
@@ -60,7 +60,7 @@ fim version
 ```
 You should see: `File Integrity Monitor v1.0.0`
 
-## 🧪 **Your First File Monitoring Session**
+## **Your First File Monitoring Session**
 
 ### **1. Create a Test Folder**
 ```bash
@@ -120,7 +120,7 @@ fim export --format json --output my_results.json
 fim export --format csv --output my_results.csv
 ```
 
-## 📋 **All Available Commands**
+## **All Available Commands**
 
 | Command | What It Does | Example |
 |---------|-------------|---------|
@@ -130,7 +130,7 @@ fim export --format csv --output my_results.csv
 | `fim export --format json` | Export data as JSON | `fim export --format json` |
 | `fim version` | Show version info | `fim version` |
 
-## 🔧 **Common Problems & Solutions**
+## **Common Problems & Solutions**
 
 ### **Problem: "fim: command not found"**
 **Solution:** The command isn't in your PATH. Try:
@@ -172,7 +172,7 @@ pip3 install -r requirements.txt
 pip3 install click rich
 ```
 
-## 📚 **Understanding the Output**
+## **Understanding the Output**
 
 ### **Baseline Creation Output:**
 ```
@@ -201,7 +201,7 @@ Baseline created successfully with 15 files
 └───────────┴───────┴─────────────────────────────────────┘
 ```
 
-## 🎯 **What This Project is Perfect For**
+## **What This Project is Perfect For**
 
 - **Learning** about file security and monitoring
 - **Demonstrating** security tools to recruiters
@@ -209,7 +209,7 @@ Baseline created successfully with 15 files
 - **Educational purposes** and workshops
 - **Understanding** how file integrity monitoring works
 
-## 🚫 **What This Project Does NOT Do**
+## **What This Project Does NOT Do**
 
 - ❌ Real-time monitoring (it's manual check-based)
 - ❌ Complex configuration management
@@ -217,7 +217,7 @@ Baseline created successfully with 15 files
 - ❌ Network monitoring
 - ❌ Enterprise features
 
-## 🤝 **Getting Help**
+## **Getting Help**
 
 ### **Check the Logs**
 If something goes wrong, check the logs:
